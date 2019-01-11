@@ -1,0 +1,9 @@
+sudo: required # To give admin priliges
+services:
+ - docker # Hey travis, we need a copy of docker cli running on your side
+
+before_install:
+ - docker build -f Dockerfile.dev -t aymanmoukhtar/docker-react .
+
+script:
+ - docker run aymanmoukhtar/docker-react npm run test -- --coverage # the -- --coverage is to exist the test suite once its finished allowing travis to get the result
