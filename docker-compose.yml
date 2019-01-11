@@ -1,0 +1,22 @@
+# The prupose of this docker-compose file is to make docker run command easier
+# Especially not having to specify the volums - which are used to reference source files from inside the container -
+
+version: '3'
+services:
+ react-app:
+  build:
+   context: .
+   dockerfile: Dockerfile.dev
+  ports:
+   - "3000:3000"
+  volumes:
+   - /app/node_modules # Means use a local copy from node_modules inside of the container
+   - .:/app # Means have a reference to the current local directory - in the build context - and map it to the content of /app folder in the container
+ tests:
+  build:
+    context: .
+    dockerfile: Dockerfile.dev
+  command: "npm run test"
+  volumes:
+     - /app/node_modules
+     - .:/app

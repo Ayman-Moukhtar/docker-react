@@ -1,0 +1,11 @@
+FROM node:alpine
+
+WORKDIR /app
+
+COPY package.json .
+RUN npm install
+
+# Optionally, this line can be removed, as the volumes already are watching my local files and there is no need to copy the files to the container
+# However, its good to leave in case we have decided to use the same Dockerfile config for production.
+COPY . . 
+CMD ["npm","start"]
