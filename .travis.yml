@@ -7,3 +7,17 @@ before_install:
 
 script:
  - docker run aymanmoukhtar/docker-react npm run test -- --coverage # the -- --coverage is to exist the test suite once its finished allowing travis to get the result
+
+
+deploy:
+  provider: elasticbeanstalk # Travis comes preconfigured to understand some providers like AWS's elasticbeans
+  region: "us-east-2" # You get that from aws url: DockerReactAws-env.ddr2dncs2j.us-east-2.elasticbeanstalk.com 
+  app: "docker-react-aws" # App name in AWS
+  env: "DockerReactAws-env" # Again, from the url
+  bucket_name: "elasticbeanstalk-us-east-2-688553028125" # From aws => services => S3 => you will find the bucket created by default for you
+  bucket_path: "docker-react-aws" # as the app name
+  on:
+   branch: master # to avoid running the pipeline on any other feature branch
+  access_key_id: $AWS_ACCESS_KEY # After generating the keys from AWS IAM, save them as environment variables in travis to avoid everyone seeing them publicly in my github repo
+  secret_access_key:
+   secure: "$AWS_SECRET_KEY"
